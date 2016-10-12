@@ -45,9 +45,21 @@
         [Test]
         public void GetTotalDataSize_ReturnsTotalCountOfSizeOfTheCollection()
         {
-           var totalSize = _model.GetTotalDataSize();
-
+            var name = "Jack";
+            var totalSize = _model.GetTotalDataSize();
             Assert.That(totalSize, Is.EqualTo(700),  "Size of the items was not calculated correct");
+
+            _model.RemoveData(name);
+
+            var totalSizeAfterRemove = _model.GetTotalDataSize();
+            Assert.That(totalSizeAfterRemove, Is.EqualTo(400), "Size of the items was not calculated correct");
+
+            var name2 = "Scott";
+            var size2 = 100;
+            _model.AddData(name2, size2);
+
+            var totalSizeAfterAdd = _model.GetTotalDataSize();
+            Assert.That(totalSizeAfterAdd, Is.EqualTo(500), "Size of the items was not calculated correct");
         }
     }
 }
