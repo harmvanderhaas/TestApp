@@ -1,5 +1,6 @@
 ﻿namespace TestDeTest.ViewModel
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Input;
@@ -15,9 +16,13 @@
         {
             _model = new DataModel();
             InitializeCollection();
+            _model.DataAdded += ModelOnDataAdded;
+            _model.DataRemoved += ModelOnDataRemoved;
             AddCommand = new Command(Add, _ => true);
             RemoveCommand = new Command(Remove, _ => true);
+            TotalSize = _model.GetTotalDataSize();
         }
+
 
         public Command RemoveCommand { get; set; }
 
@@ -41,14 +46,35 @@
             }
         }
 
+        private void ModelOnDataAdded(object sender, DataAddedArgs dataAddedArgs)
+        {
+            Items.Add(new DataViewModel(dataAddedArgs.Name, dataAddedArgs.Size));
+            TotalSize = _model.GetTotalDataSize();
+        }
+        private void ModelOnDataRemoved(object sender, DataRemovedArgs dataRemovedArgs)
+        {
+            TotalSize = _model.GetTotalDataSize();
+            var data = Items.SingleOrDefault(a => a.Name == dataRemovedArgs.Name);
+
+            if (data != null)
+            {
+                Items.Remove(data);
+            }
+        }
+
         private void Add(object obj)
         {
-            throw new System.NotImplementedException();
+            _model.AddData(Name, Size);
+            //throw new System.NotImplementedException();
         }
 
         private void Remove(object obj)
         {
-            throw new System.NotImplementedException();
+            if (SelectedItem != null)
+            {
+                _model.RemoveData(SelectedItem.Name);
+            }
+            //throw new System.NotImplementedException();
         }
 
         private void InitializeCollection()

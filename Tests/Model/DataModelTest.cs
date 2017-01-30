@@ -34,12 +34,15 @@
         public void RemoveData_RemovesItemToTheCollection()
         {
             var name = "Jack";
+            var trigger = false;
 
+            _model.DataRemoved += delegate { trigger = true; };
             _model.RemoveData(name);
 
             var dataItem = _model.GetData().SingleOrDefault(d => d.Name == name);
 
             Assert.IsNull(dataItem, "Item was not removed from the list list");
+            Assert.IsTrue(trigger, "Remove event was not triggered");
         }
 
         [Test]

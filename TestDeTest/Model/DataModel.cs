@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class DataModel
     {
@@ -32,11 +33,24 @@
 
         public void RemoveData(string name)
         {
+            var data = _data.SingleOrDefault(a => a.Name == name);
+
+            if (data == null)
+                return;
+
+            var removed = _data.Remove(data);
+            if (!removed)
+                return;
+
+            DataRemoved.Invoke(this, new DataRemovedArgs(name));
         }
 
         public int GetTotalDataSize()
         {
-            throw new NotImplementedException();
+            var size = _data.Sum(a => a.Size);
+
+            return size;
+            //throw new NotImplementedException();
         }
     }
 }
