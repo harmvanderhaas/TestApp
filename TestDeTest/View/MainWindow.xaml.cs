@@ -1,4 +1,4 @@
-﻿namespace TestDeTest
+﻿namespace TestDeTest.View
 {
     public partial class MainWindow
     {
