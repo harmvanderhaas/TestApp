@@ -22,6 +22,7 @@
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="1*"></ColumnDefinition>
       <ColumnDefinition Width="1*"></ColumnDefinition>
+      <ColumnDefinition Width="1*"></ColumnDefinition>
     </Grid.ColumnDefinitions>
     <Label Grid.Row="0" Grid.Column="0" Content="Name"/>
     <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}"/>
@@ -29,6 +30,7 @@
     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Size}" />
     <Button Grid.Row="2" Grid.Column="0" Content="Add" Command="{Binding AddCommand}"/>
     <Button Grid.Row="2" Grid.Column="1" Content="Remove" Command="{Binding RemoveCommand}"/>
+    <Button Grid.Row="2" Grid.Column="2" Content="Update" Command="{Binding UpdateCommmand}"/>
     <ListView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                 HorizontalContentAlignment="Stretch" 
                 ItemsSource="{Binding Items, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -36,8 +38,9 @@
                 Background="{DynamicResource UserVisibleListBackground}" Margin="0">
       <ListView.View>
         <GridView>
+          <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"/>
           <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
-          <GridViewColumn Header="Size" />
+          <GridViewColumn Header="Size" DisplayMemberBinding="{Binding Size}"/>
         </GridView>
       </ListView.View>
     </ListView>

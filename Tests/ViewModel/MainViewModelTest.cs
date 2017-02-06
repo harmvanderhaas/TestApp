@@ -16,6 +16,19 @@
             _viewModel = new MainViewModel();
         }
 
+
+        [Test]
+        public void UpdateDataInViewModelShouldUpdateInModelTest()
+        {
+            //arange
+
+
+            //act
+
+
+            //assert
+        }
+
         [Test]
         public void AddData_AddsItemToTheCollection()
         {

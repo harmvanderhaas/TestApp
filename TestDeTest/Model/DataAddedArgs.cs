@@ -2,11 +2,14 @@
 {
     public class DataAddedArgs
     {
-        public DataAddedArgs(string name, int size)
+        public DataAddedArgs(Data item)
         {
-            Name = name;
-            Size = size;
+            this.Name = item.Name;
+            this.Size = item.Size;
+            this.Id = item.Id;
         }
+
+        public int Id { get; set; }
 
         public int Size { get; set; }
 
