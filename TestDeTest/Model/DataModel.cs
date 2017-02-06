@@ -12,8 +12,8 @@
         {
             _data = new List<Data>()
                         {
-                            new Data("Jack", 300),
-                            new Data("Palinka", 400),
+                            new Data("Jack", 300, 1),
+                            new Data("Palinka", 400, 2),
                         };
         }
 
@@ -25,10 +25,10 @@
             return _data;
         }
 
-        public void AddData(string name, int size)
+        public void AddData(string name, int size, int value)
         {
-            _data.Add(new Data(name, size));
-            DataAdded.Invoke(this, new DataAddedArgs(name, size));
+            _data.Add(new Data(name, size, value));
+            DataAdded.Invoke(this, new DataAddedArgs(name, size, value));
         }
 
         public void RemoveData(string name)

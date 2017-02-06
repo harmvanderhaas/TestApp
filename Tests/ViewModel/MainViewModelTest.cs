@@ -28,6 +28,7 @@
             var dataItem = _viewModel.Items.SingleOrDefault(i => i.Name == name);
 
             Assert.IsNotNull(dataItem, "Item was not added to the list");
+            Assert.That(dataItem.Value, Is.EqualTo(0));
         }
 
         [Test]

@@ -48,7 +48,7 @@
 
         private void ModelOnDataAdded(object sender, DataAddedArgs dataAddedArgs)
         {
-            Items.Add(new DataViewModel(dataAddedArgs.Name, dataAddedArgs.Size));
+            Items.Add(new DataViewModel(dataAddedArgs.Name, dataAddedArgs.Size, dataAddedArgs.Value));
             TotalSize = _model.GetTotalDataSize();
         }
         private void ModelOnDataRemoved(object sender, DataRemovedArgs dataRemovedArgs)
@@ -64,7 +64,7 @@
 
         private void Add(object obj)
         {
-            _model.AddData(Name, Size);
+            _model.AddData(Name, Size, 0);
             //throw new System.NotImplementedException();
         }
 
@@ -79,21 +79,24 @@
 
         private void InitializeCollection()
         {
-            var dataViewModels = _model.GetData().Select(d => new DataViewModel(d.Name, d.Size));
+            var dataViewModels = _model.GetData().Select(d => new DataViewModel(d.Name, d.Size, d.Value));
             Items = new ObservableCollection<DataViewModel>(dataViewModels);
         }
     }
 
     public class DataViewModel : ViewModel
     {
-        public DataViewModel(string name, int size)
+        public DataViewModel(string name, int size, int value)
         {
             Name = name;
             Size = size;
+            Value = value;
         }
 
         public string Name { get; set; }
 
         public int Size { get; set; }
+
+        public int Value { get; set; }
     }
 }

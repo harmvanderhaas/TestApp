@@ -22,12 +22,14 @@
         {
             var name = "Scott";
             var size = 100;
-            _model.AddData(name, size);
+            var value = 30;
+            _model.AddData(name, size, value);
 
             var dataItem = _model.GetData().SingleOrDefault(d => d.Name == name);
 
             Assert.IsNotNull(dataItem, "Item was not added to the list list");
             Assert.That(dataItem.Size, Is.EqualTo(size));
+            Assert.That(dataItem.Value, Is.EqualTo(value));
         }
 
         [Test]
@@ -59,7 +61,7 @@
 
             var name2 = "Scott";
             var size2 = 100;
-            _model.AddData(name2, size2);
+            _model.AddData(name2, size2, 0);
 
             var totalSizeAfterAdd = _model.GetTotalDataSize();
             Assert.That(totalSizeAfterAdd, Is.EqualTo(500), "Size of the items was not calculated correct");
