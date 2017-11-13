@@ -14,9 +14,24 @@
         public MainViewModel()
         {
             _model = new DataModel();
+            _model.DataAdded += ModelOnDataAdded;
+            _model.DataRemoved += ModelOnDataRemoved;
+           
             InitializeCollection();
             AddCommand = new Command(Add, _ => true);
             RemoveCommand = new Command(Remove, _ => true);
+        }
+
+        private void ModelOnDataRemoved(object sender, DataRemovedArgs dataRemovedArgs)
+        {
+            string name = dataRemovedArgs.Name;
+            
+            _model.RemoveData(name);
+            var item = Items.SingleOrDefault(i => i.Name == name);
+            if (item != null)
+                Items.Remove(item);
+
+            TotalSize = _model.GetTotalDataSize();
         }
 
         public Command RemoveCommand { get; set; }
@@ -43,17 +58,33 @@
 
         private void Add(object obj)
         {
-            throw new System.NotImplementedException();
+            _model.AddData(Name,Size);
+
+        }
+
+        private void ModelOnDataAdded(object sender, DataAddedArgs dataAddedArgs)
+        {
+
+            DataViewModel test = new DataViewModel(dataAddedArgs.Name, dataAddedArgs.Size);
+            Items.Add(test);
+
+            TotalSize = _model.GetTotalDataSize();
+
         }
 
         private void Remove(object obj)
         {
-            throw new System.NotImplementedException();
+
+            string name = SelectedItem.Name;
+            
+            _model.RemoveData(name);
+
         }
 
         private void InitializeCollection()
         {
             var dataViewModels = _model.GetData().Select(d => new DataViewModel(d.Name, d.Size));
+            TotalSize = _model.GetTotalDataSize();
             Items = new ObservableCollection<DataViewModel>(dataViewModels);
         }
     }

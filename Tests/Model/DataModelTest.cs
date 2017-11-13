@@ -1,5 +1,6 @@
 ﻿namespace Tests.Model
 {
+    using System;
     using System.Linq;
 
     using NUnit.Framework;
@@ -28,6 +29,15 @@
 
             Assert.IsNotNull(dataItem, "Item was not added to the list list");
             Assert.That(dataItem.Size, Is.EqualTo(size));
+        }
+
+        [Test]
+        public void OnlyAddItemWithDifferentNames()
+        {
+            var name = "Scott";
+            var size = 100;
+            _model.AddData(name, size);
+            Assert.Throws<Exception>(()=> _model.AddData(name, size));
         }
 
         [Test]
