@@ -1,5 +1,6 @@
 ﻿namespace Tests.Model
 {
+    using System.Collections.Generic;
     using System.Linq;
 
     using NUnit.Framework;
@@ -60,6 +61,39 @@
 
             var totalSizeAfterAdd = _model.GetTotalDataSize();
             Assert.That(totalSizeAfterAdd, Is.EqualTo(500), "Size of the items was not calculated correct");
+        }
+
+        [Test]
+        public void AddData_DataAddedEvent_AddedItemInformationIsCorrect()
+        {
+            //arrange
+            var eventsList = new List<DataAddedArgs>();
+            _model.DataAdded += (sender, args) =>
+                                {
+                                    eventsList.Add(args);
+                                };
+
+            //act
+            var paul = "Paul";
+            var size = 200;
+            _model.AddData(paul, size);
+            
+            //assert
+            Assert.IsNotNull(eventsList.Select(d => d.Name == paul && d.Size == size));
+        }
+
+        [Test]
+        public void RemoveData_DataRemovedEvent_RemovedItemInformationIsCorrect()
+        {
+            var eventsList = new List<DataRemovedArgs>();
+            _model.DataRemoved += (sender, args) =>
+                                  {
+                                      eventsList.Add(args);
+                                  };
+            var name = "Jack";
+            _model.RemoveData(name);
+
+            Assert.IsNotNull(eventsList.Select(d => d.Name == name));
         }
     }
 }
