@@ -4,6 +4,8 @@
 
     using NUnit.Framework;
 
+    using Rhino.Mocks;
+
     using TestDeTest.Model;
 
     [TestFixture]
@@ -14,7 +16,7 @@
         [SetUp]
         public void Setup()
         {
-            _model = new DataModel();
+            _model = new DataModel(MockRepository.GenerateStub<ICallBack>());
         }
         
         [Test]
@@ -22,6 +24,7 @@
         {
             var name = "Scott";
             var size = 100;
+
             _model.AddData(name, size);
 
             var dataItem = _model.GetData().SingleOrDefault(d => d.Name == name);
