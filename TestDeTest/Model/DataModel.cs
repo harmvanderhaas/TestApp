@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class DataModel
     {
@@ -32,11 +33,19 @@
 
         public void RemoveData(string name)
         {
+            var item = _data.Find(x => x.Name.ToLower().Trim() == name.ToLower().Trim());
+            if (item != null)
+            {
+                _data.Remove(item);
+                DataRemoved.Invoke(this, new DataRemovedArgs(name));
+            }
         }
 
         public int GetTotalDataSize()
         {
-            throw new NotImplementedException();
+            var totalSize = 0;
+            _data.ForEach(item => totalSize += item.Size);
+            return totalSize;
         }
     }
 }
