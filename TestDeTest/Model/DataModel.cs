@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class DataModel
     {
@@ -17,6 +18,7 @@
         }
 
         public event EventHandler<DataAddedArgs> DataAdded = (sender, args) => { };
+
         public event EventHandler<DataRemovedArgs> DataRemoved = (sender, args) => { };
 
         public List<Data> GetData()
@@ -32,11 +34,13 @@
 
         public void RemoveData(string name)
         {
+            _data.RemoveAll(d => d.Name == name);
+            DataRemoved.Invoke(this, new DataRemovedArgs(name));
         }
 
         public int GetTotalDataSize()
         {
-            throw new NotImplementedException();
+            return _data.Sum(d => d.Size);
         }
     }
 }
